@@ -1,31 +1,60 @@
-name: Deploy Presentations
+name: Deploy Pandoc Presentations
 on:
   push:
     branches: [ main ]
 
+# Required to push to the gh-pages branch
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
 
-      # 1. Convert Markdown to HTML slides using Marp CLI
-      - name: Marp Build
-        run: |
-          mkdir dist
-          npx @marp-team/marp-cli@latest --input-dir slides/ -o dist/
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
 
-      # 2. Generate the Index Page (Simple example)
-      - name: Generate Index
+      - name: Setup Reveal.js & Build Slides
         run: |
-          echo "<html><body><h1>My Presentations</h1><ul>" > dist/index.html
-          ls -r slides/*.md | sed 's|slides/\(.*\).md|<li><a href="\1.html">\1</a></li>|' >> dist/index.html
+          mkdir -p dist
+
+          # Download reveal.js so Pandoc has the CSS/JS to make it look like a presentation
+          wget https://github.com/hakimel/reveal.js/archive/master.tar.gz
+          tar -xzvf master.tar.gz
+          mv reveal.js-master dist/reveal.js
+
+          # Convert every markdown file in the slides folder
+          for file in slides/*.md; do
+            # Extract just the filename without the .md extension
+            filename=$(basename "$file" .md)
+
+            # Run Pandoc:
+            # -t revealjs : output as a reveal.js presentation
+            # -s : standalone (generates full HTML with headers, not just fragments)
+            # -V theme=night : applies the dark theme
+            # -V revealjs-url=./reveal.js : points to the folder we just downloaded
+            pandoc "$file" -t revealjs -s -o "dist/$filename.html" \
+              -V theme=night \
+              -V revealjs-url=./reveal.js \
+              -V transition=none
+          done
+
+      - name: Generate Index Page
+        run: |
+          echo "<html><head><title>My Presentations</title><style>body{font-family:sans-serif;background-color:#121212;color:#ffffff;padding:40px;line-height:1.6;}ul{list-style:none;}a{text-decoration:none;color:#58a6ff;}a:hover{text-decoration:underline;}</style></head><body>" > dist/index.html
+          echo "<h1>Presentations</h1><ul>" >> dist/index.html
+
+          # Sort files in reverse order and create links
+          ls -r dist/*.html | grep -v "index.html" | while read -r file; do
+            filename=$(basename "$file")
+            echo "<li><a href=\"./$filename\">${filename%.*}</a></li>" >> dist/index.html
+          done
+
           echo "</ul></body></html>" >> dist/index.html
 
-      # 3. Deploy to GitHub Pages
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
