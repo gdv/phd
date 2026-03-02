@@ -1,0 +1,30 @@
+name: Deploy Presentations
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Convert Markdown to HTML slides using Marp CLI
+      - name: Marp Build
+        run: |
+          mkdir dist
+          npx @marp-team/marp-cli@latest slides/ -o dist/
+
+      # 2. Generate the Index Page (Simple example)
+      - name: Generate Index
+        run: |
+          echo "<html><body><h1>My Presentations</h1><ul>" > dist/index.html
+          ls -r slides/*.md | sed 's|slides/\(.*\).md|<li><a href="\1.html">\1</a></li>|' >> dist/index.html
+          echo "</ul></body></html>" >> dist/index.html
+
+      # 3. Deploy to GitHub Pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
