@@ -2,18 +2,18 @@
 
 /* Target the main reveal.js container to shrink the overall base font */
 .reveal {
-  font-size: 28px; /* Default is usually around 40px */
+  font-size: 24px; /* Default is usually around 40px */
 }
 
 /* Make headers slightly smaller and give them a distinct color */
 .reveal h1 {
-  font-size: 1.8em;
-  color: #58a6ff; /* A nice GitHub-style blue */
+  font-size: 1.6em;
+  color: #00cc00; /* A nice GitHub-style blue */
   text-transform: none; /* Prevents reveal.js from making everything ALL CAPS */
 }
 
 .reveal h2 {
-  font-size: 1.4em;
+  font-size: 1.2em;
   color: #c9d1d9;
 }
 
