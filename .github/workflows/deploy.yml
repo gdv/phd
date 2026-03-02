@@ -13,7 +13,7 @@ jobs:
       - name: Marp Build
         run: |
           mkdir dist
-          npx @marp-team/marp-cli@latest slides/ -o dist/
+          npx @marp-team/marp-cli@latest --input-dir slides/ -o dist/
 
       # 2. Generate the Index Page (Simple example)
       - name: Generate Index
