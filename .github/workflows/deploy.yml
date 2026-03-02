@@ -25,6 +25,9 @@ jobs:
           tar -xzvf master.tar.gz
           mv reveal.js-master dist/reveal.js
 
+          # Copy your custom CSS into the dist folder so the HTML can see it
+          cp slides/custom.css dist/custom.css
+
           # Convert every markdown file in the slides folder
           for file in slides/*.md; do
             # Extract just the filename without the .md extension
@@ -35,10 +38,12 @@ jobs:
             # -s : standalone (generates full HTML with headers, not just fragments)
             # -V theme=night : applies the dark theme
             # -V revealjs-url=./reveal.js : points to the folder we just downloaded
+            # Note the new --css=custom.css flag below!
             pandoc "$file" -t revealjs -s -o "dist/$filename.html" \
               -V theme=night \
-              -V revealjs-url=./reveal.js \
-              -V transition=none
+              -V transition=none \
+              --css=custom.css \
+              -V revealjs-url=./reveal.js
           done
 
       - name: Generate Index Page

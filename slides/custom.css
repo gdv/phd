@@ -1,0 +1,33 @@
+/* slides/custom.css */
+
+/* Target the main reveal.js container to shrink the overall base font */
+.reveal {
+  font-size: 32px; /* Default is usually around 40px */
+}
+
+/* Make headers slightly smaller and give them a distinct color */
+.reveal h1 {
+  font-size: 1.8em;
+  color: #58a6ff; /* A nice GitHub-style blue */
+  text-transform: none; /* Prevents reveal.js from making everything ALL CAPS */
+}
+
+.reveal h2 {
+  font-size: 1.4em;
+  color: #c9d1d9;
+}
+
+/* Ensure list items are cleanly spaced and don't animate point-by-point */
+.reveal ul li, 
+.reveal ol li {
+  margin-bottom: 0.5em;
+  font-size: 1em; /* Inherits the 32px from .reveal */
+}
+
+/* Optional: Make inline code blocks pop */
+.reveal code {
+  color: #ff7b72;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
