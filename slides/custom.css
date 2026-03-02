@@ -2,7 +2,7 @@
 
 /* Target the main reveal.js container to shrink the overall base font */
 .reveal {
-  font-size: 24px; /* Default is usually around 40px */
+  font-size: 26px; /* Default is usually around 40px */
 }
 
 /* Make headers slightly smaller and give them a distinct color */
