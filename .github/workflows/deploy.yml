@@ -42,6 +42,8 @@ jobs:
             pandoc "$file" -t revealjs -s -o "dist/$filename.html" \
               -V theme=night \
               -V transition=none \
+              -V width=1280 \
+              -V height=720 \
               --css=custom.css \
               -V revealjs-url=./reveal.js
           done
