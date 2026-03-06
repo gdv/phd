@@ -1,7 +1,7 @@
 % Getting a PhD in Computer Science (at University of Milano - Bicocca) 
 **Prof. Gianluca Della Vedova** 
 *Director of the Ph.D. Program in Computer Science* 
-[[![QR Code](qr.svg) https://phd-computer-science.disco.unimib.it]](https://phd-computer-science.disco.unimib.it)
+[![QR Code](qr.svg)](https://phd-computer-science.disco.unimib.it)
 
 ---
 
