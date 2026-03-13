@@ -2,7 +2,7 @@
 
 /* Target the main reveal.js container to shrink the overall base font */
 .reveal {
-  font-size: 26px; /* Default is usually around 40px */
+  font-size: 24px; /* Default is usually around 40px */
 }
 
 /* Make headers slightly smaller and give them a distinct color */
@@ -15,6 +15,10 @@
 .reveal h2 {
   font-size: 1.2em;
   color: #c9d1d9;
+}
+
+.reveal strong {
+    color: #00cc00; /* Replace with any HEX, RGB, or color name you like */
 }
 
 /* Ensure list items are cleanly spaced and don't animate point-by-point */
