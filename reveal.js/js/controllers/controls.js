@@ -1,5 +1,5 @@
-import { queryAll, enterFullscreen } from '../utils/util'
-import { isAndroid } from '../utils/device'
+import { queryAll } from '../utils/util.js'
+import { isAndroid } from '../utils/device.js'
 
 /**
  * Manages our presentation controls. This includes both
@@ -12,7 +12,6 @@ import { isAndroid } from '../utils/device'
  * - .navigate-left
  * - .navigate-next
  * - .navigate-prev
- * - .enter-fullscreen
  */
 export default class Controls {
 
@@ -26,7 +25,6 @@ export default class Controls {
 		this.onNavigateDownClicked = this.onNavigateDownClicked.bind( this );
 		this.onNavigatePrevClicked = this.onNavigatePrevClicked.bind( this );
 		this.onNavigateNextClicked = this.onNavigateNextClicked.bind( this );
-		this.onEnterFullscreen = this.onEnterFullscreen.bind( this );
 
 	}
 
@@ -52,7 +50,6 @@ export default class Controls {
 		this.controlsDown = queryAll( revealElement, '.navigate-down' );
 		this.controlsPrev = queryAll( revealElement, '.navigate-prev' );
 		this.controlsNext = queryAll( revealElement, '.navigate-next' );
-		this.controlsFullscreen = queryAll( revealElement, '.enter-fullscreen' );
 
 		// The left, right and down arrows in the standard reveal.js controls
 		this.controlsRightArrow = this.element.querySelector( '.navigate-right' );
@@ -66,12 +63,7 @@ export default class Controls {
 	 */
 	configure( config, oldConfig ) {
 
-		const speakerOnly = config.controls === 'speaker' || config.controls === 'speaker-only';
-
-		this.element.style.display = (
-			config.controls &&
-			(!speakerOnly || this.Reveal.isSpeakerNotes())
-		) ? 'block' : 'none';
+		this.element.style.display = config.controls ? 'block' : 'none';
 
 		this.element.setAttribute( 'data-controls-layout', config.controlsLayout );
 		this.element.setAttribute( 'data-controls-back-arrows', config.controlsBackArrows );
@@ -85,10 +77,9 @@ export default class Controls {
 		let pointerEvents = [ 'touchstart', 'click' ];
 
 		// Only support touch for Android, fixes double navigations in
-		// stock browser. Use touchend for it to be considered a valid
-		// user interaction (so we're allowed to autoplay media).
+		// stock browser
 		if( isAndroid ) {
-			pointerEvents = [ 'touchend' ];
+			pointerEvents = [ 'touchstart' ];
 		}
 
 		pointerEvents.forEach( eventName => {
@@ -98,21 +89,19 @@ export default class Controls {
 			this.controlsDown.forEach( el => el.addEventListener( eventName, this.onNavigateDownClicked, false ) );
 			this.controlsPrev.forEach( el => el.addEventListener( eventName, this.onNavigatePrevClicked, false ) );
 			this.controlsNext.forEach( el => el.addEventListener( eventName, this.onNavigateNextClicked, false ) );
-			this.controlsFullscreen.forEach( el => el.addEventListener( eventName, this.onEnterFullscreen, false ) );
 		} );
 
 	}
 
 	unbind() {
 
-		[ 'touchstart', 'touchend', 'click' ].forEach( eventName => {
+		[ 'touchstart', 'click' ].forEach( eventName => {
 			this.controlsLeft.forEach( el => el.removeEventListener( eventName, this.onNavigateLeftClicked, false ) );
 			this.controlsRight.forEach( el => el.removeEventListener( eventName, this.onNavigateRightClicked, false ) );
 			this.controlsUp.forEach( el => el.removeEventListener( eventName, this.onNavigateUpClicked, false ) );
 			this.controlsDown.forEach( el => el.removeEventListener( eventName, this.onNavigateDownClicked, false ) );
 			this.controlsPrev.forEach( el => el.removeEventListener( eventName, this.onNavigatePrevClicked, false ) );
 			this.controlsNext.forEach( el => el.removeEventListener( eventName, this.onNavigateNextClicked, false ) );
-			this.controlsFullscreen.forEach( el => el.removeEventListener( eventName, this.onEnterFullscreen, false ) );
 		} );
 
 	}
@@ -152,14 +141,9 @@ export default class Controls {
 			if( fragmentsRoutes.prev ) this.controlsPrev.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			if( fragmentsRoutes.next ) this.controlsNext.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 
-			const isVerticalStack = this.Reveal.isVerticalSlide( currentSlide );
-			const hasVerticalSiblings = isVerticalStack &&
-																	currentSlide.parentElement &&
-																	currentSlide.parentElement.querySelectorAll( ':scope > section' ).length > 1;
-
 			// Apply fragment decorators to directional buttons based on
 			// what slide axis they are in
-			if( isVerticalStack && hasVerticalSiblings ) {
+			if( this.Reveal.isVerticalSlide( currentSlide ) ) {
 				if( fragmentsRoutes.prev ) this.controlsUp.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 				if( fragmentsRoutes.next ) this.controlsDown.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			}
@@ -278,13 +262,5 @@ export default class Controls {
 
 	}
 
-	onEnterFullscreen( event ) {
-
-		const config = this.Reveal.getConfig();
-		const viewport = this.Reveal.getViewportElement();
-
-		enterFullscreen( config.embedded ? viewport : viewport.parentElement );
-
-	}
 
 }

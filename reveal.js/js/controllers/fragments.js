@@ -1,4 +1,4 @@
-import { extend, queryAll } from '../utils/util'
+import { extend, queryAll } from '../utils/util.js'
 
 /**
  * Handles sorting and navigation of slide fragments.
@@ -174,23 +174,24 @@ export default class Fragments {
 	 *
 	 * @return {{shown: array, hidden: array}}
 	 */
-	update( index, fragments, slide = this.Reveal.getCurrentSlide() ) {
+	update( index, fragments ) {
 
 		let changedFragments = {
 			shown: [],
 			hidden: []
 		};
 
-		if( slide && this.Reveal.getConfig().fragments ) {
+		let currentSlide = this.Reveal.getCurrentSlide();
+		if( currentSlide && this.Reveal.getConfig().fragments ) {
 
-			fragments = fragments || this.sort( slide.querySelectorAll( '.fragment' ) );
+			fragments = fragments || this.sort( currentSlide.querySelectorAll( '.fragment' ) );
 
 			if( fragments.length ) {
 
 				let maxIndex = 0;
 
 				if( typeof index !== 'number' ) {
-					let currentFragment = this.sort( slide.querySelectorAll( '.fragment.visible' ) ).pop();
+					let currentFragment = this.sort( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
 					if( currentFragment ) {
 						index = parseInt( currentFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
 					}
@@ -251,30 +252,10 @@ export default class Fragments {
 				// the current fragment index.
 				index = typeof index === 'number' ? index : -1;
 				index = Math.max( Math.min( index, maxIndex ), -1 );
-				slide.setAttribute( 'data-fragment', index );
+				currentSlide.setAttribute( 'data-fragment', index );
 
 			}
 
-		}
-
-		if( changedFragments.hidden.length ) {
-			this.Reveal.dispatchEvent({
-				type: 'fragmenthidden',
-				data: {
-					fragment: changedFragments.hidden[0],
-					fragments: changedFragments.hidden
-				}
-			});
-		}
-
-		if( changedFragments.shown.length ) {
-			this.Reveal.dispatchEvent({
-				type: 'fragmentshown',
-				data: {
-					fragment: changedFragments.shown[0],
-					fragments: changedFragments.shown
-				}
-			});
 		}
 
 		return changedFragments;
@@ -330,6 +311,26 @@ export default class Fragments {
 				index += offset;
 
 				let changedFragments = this.update( index, fragments );
+
+				if( changedFragments.hidden.length ) {
+					this.Reveal.dispatchEvent({
+						type: 'fragmenthidden',
+						data: {
+							fragment: changedFragments.hidden[0],
+							fragments: changedFragments.hidden
+						}
+					});
+				}
+
+				if( changedFragments.shown.length ) {
+					this.Reveal.dispatchEvent({
+						type: 'fragmentshown',
+						data: {
+							fragment: changedFragments.shown[0],
+							fragments: changedFragments.shown
+						}
+					});
+				}
 
 				this.Reveal.controls.update();
 				this.Reveal.progress.update();

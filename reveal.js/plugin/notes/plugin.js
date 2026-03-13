@@ -1,4 +1,4 @@
-import speakerViewHTML from './speaker-view.html?raw'
+import speakerViewHTML from './speaker-view.html'
 
 import { marked } from 'marked';
 
@@ -146,12 +146,8 @@ const Plugin = () => {
 		}
 
 		// Look for notes defined in an aside element
-		if( notesElements && notesElements.length ) {
-			// Ignore notes inside of fragments since those are shown
-			// individually when stepping through fragments
-			notesElements = Array.from( notesElements ).filter( notesElement => notesElement.closest( '.fragment' ) === null );
-
-			messageData.notes = notesElements.map( notesElement => notesElement.innerHTML ).join( '\n' );
+		if( notesElements ) {
+			messageData.notes = Array.from(notesElements).map( notesElement => notesElement.innerHTML ).join( '\n' );
 			messageData.markdown = notesElements[0] && typeof notesElements[0].getAttribute( 'data-markdown' ) === 'string';
 		}
 
@@ -180,16 +176,14 @@ const Plugin = () => {
 		// (added 12/5/22 as a XSS safeguard)
 		if( isSameOriginEvent( event ) ) {
 
-			try {
-				let data = JSON.parse( event.data );
-				if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
-					clearInterval( connectInterval );
-					onConnected();
-				}
-				else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
-					callRevealApi( data.methodName, data.arguments, data.callId );
-				}
-		  } catch (e) {}
+			let data = JSON.parse( event.data );
+			if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
+				clearInterval( connectInterval );
+				onConnected();
+			}
+			else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
+				callRevealApi( data.methodName, data.arguments, data.callId );
+			}
 
 		}
 
@@ -209,10 +203,6 @@ const Plugin = () => {
 		deck.on( 'overviewshown', post );
 		deck.on( 'paused', post );
 		deck.on( 'resumed', post );
-		deck.on( 'previewiframe', post );
-		deck.on( 'previewimage', post );
-		deck.on( 'previewvideo', post );
-		deck.on( 'closeoverlay', post );
 
 		// Post the initial state
 		post();
@@ -233,7 +223,7 @@ const Plugin = () => {
 					openSpeakerWindow();
 				}
 				else {
-					// Keep listening for speaker view heartbeats. If we receive a
+					// Keep listening for speaker view hearbeats. If we receive a
 					// heartbeat from an orphaned window, reconnect it. This ensures
 					// that we remain connected to the notes even if the presentation
 					// is reloaded.
