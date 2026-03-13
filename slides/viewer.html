@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.0/theme/black.min.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section id="markdown-target" data-markdown="" data-separator="^\n---\n$"></section>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.0/reveal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.0/plugin/markdown/markdown.min.js"></script>
+    <script>
+        // Get "deck" from URL, e.g., viewer.html?deck=presentation-one
+        const params = new URLSearchParams(window.location.search);
+        const deck = params.get('deck') || 'index';
+        
+        const target = document.getElementById('markdown-target');
+        target.setAttribute('data-markdown', deck + '.md');
+
+        Reveal.initialize({ plugins: [ RevealMarkdown ] });
+    </script>
+</body>
+</html>
