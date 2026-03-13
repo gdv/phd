@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 // 1. Get and Sort Files
 const files = fs.readdirSync('.')
     .filter(file => file.endsWith('.md'))
