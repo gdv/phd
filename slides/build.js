@@ -10,7 +10,7 @@ const files = fs.readdirSync('.')
 const listItems = files.map(file => {
     const slug = file.replace('.md', '');
     // Clean up display name: remove date prefix and dashes
-    const displayName = slug.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/-/g, ' ');
+    const displayName = slug;
 
     return `
     <li>
