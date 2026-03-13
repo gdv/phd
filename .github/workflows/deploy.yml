@@ -27,7 +27,7 @@ jobs:
           mv reveal.js-4.6.1 dist/reveal.js
 
           # Copy your custom CSS into the dist folder so the HTML can see it
-          cp slides/*.css slides/*.svg dist/
+          cp slides/*.css slides/*.svg slides/*.png  dist/
 
           # Convert every markdown file in the slides folder
           for file in slides/*.md; do
