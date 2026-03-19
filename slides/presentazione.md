@@ -4,8 +4,9 @@
 
 *Director of the Ph.D. Program in Computer Science* 
 
- **Info**   Questions! 
-![https://phd-computer-science.disco.unimib.it](qr.svg)  <img src="slido.png" width="150px"> 
+ **Info**: ![https://phd-computer-science.disco.unimib.it](qr.svg)
+ 
+ Questions! <img src="slido.png" width="150px"> 
 
 ---
 
@@ -17,22 +18,13 @@
 
 ---
 
-## PhD Structure 
+# PhD Structure 
 
 -  **Duration:** 3 years 
 -  **Coursework:** 4 CS courses, + 2-3 interdisciplinary courses, overall 11 CFU
 -  **Research:** A lot!
--  **Publications:** Main dissemination vehicle
--  **Doctoral Thesis:** Summary of the PhD journey. Defended against an expert committee. 
-
----
-
-## The Path 
-_Every year there is a checkpoint of the advances_
-
--  **1st year:** Definition of the problem and knowledge of the state of the art
--  **2nd year:** Intermediate results and definition of expected outcome
--  **3rd year:** Main contribution
+-  **Publications:** Some
+-  **Doctoral Thesis:** One. Defended against an expert committee. 
 
 ---
 
@@ -45,23 +37,12 @@ _Every year there is a checkpoint of the advances_
 
 ---
 
-## Key Abilities Developed 
-
--  Independence 
--  Communication skills 
--  Collaboration 
--  Critical thinking
--  Problem solving 
--  Flexibility
--  Analytical and technical skills 
-
----
 
 ## A good PhD candidate is... 
 
 -  Curious, eager to learn. 
 -  Motivated in exploring new frontiers of knowledge. 
--  Aimed at improving the specialisation of knowledge and skills in a given area. 
+-  Aimed at improving the specialization of knowledge and skills in a given area. 
 
 
 ## A good PhD candidate will... 
@@ -74,7 +55,7 @@ _Every year there is a checkpoint of the advances_
 
 ## A bad PhD candidate... 
 
--  Snoozes the alarm clock for entering the job market
+-  Delays entering the job market
 -  Thinks that academia is the only career path
 -  Only wants to continue working on the thesis. 
 
@@ -82,11 +63,10 @@ _Every year there is a checkpoint of the advances_
 
 ## The Selection Process 
 
--  Every year there is an open call (normally around April). 
--  Candidates apply by submitting their CV and a short project proposal. 
+-  Every year there is an open call (**NOW!**). 
+-  CV and a short project proposal. 
 -  A committee assesses the CV, the projects, interviews the candidates, and ranks them.
--  A new cycle with the new students starts every year in November. 
-
+-  A new cycle with the new students starts on November 1st. 
 
 ---
 
@@ -104,5 +84,4 @@ _Every year there is a checkpoint of the advances_
 ![https://phd-computer-science.disco.unimib.it](qr.svg)
 
 Questions!
-
-![https://phd-computer-science.disco.unimib.it](qr.svg)  <img src="slido.png" width="150px"> 
+<img src="slido.png" width="150px"> 
